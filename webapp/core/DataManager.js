@@ -3097,7 +3097,7 @@ var DataManager = module.exports = {
         reject(err);
       };
 
-      models.db.Analysis.findAll(Utils.extend({
+      return models.db.Analysis.findAll(Utils.extend({
         include: [
           {
             model: models.db.AnalysisDataSeries,
@@ -3240,7 +3240,7 @@ var DataManager = module.exports = {
               analysisInstance.addAnalysisDataSeries(analysisDsMeta);
             });
 
-            resolve(analysisInstance);
+            return resolve(analysisInstance);
           }).catch(function(err) {
             return reject(err);
           });
