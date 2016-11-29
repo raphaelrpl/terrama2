@@ -399,20 +399,20 @@ var DataManager = module.exports = {
       var _rejectClean = function(err) {
         clean();
         logger.error("CLEAN: ", err);
-        reject(err);
+        return reject(err);
       };
 
-      models.db.Project.findAll({}).then(function(projects) {
+      return models.db.Project.findAll({}).then(function(projects) {
         projects.forEach(function(project) {
           self.data.projects.push(project.get());
         });
 
-        models.db.DataProvider.findAll({ include: [ models.db.DataProviderType ] }).then(function(dataProviders) {
+        return models.db.DataProvider.findAll({ include: [ models.db.DataProviderType ] }).then(function(dataProviders) {
           dataProviders.forEach(function(dataProvider) {
             self.data.dataProviders.push(new DataModel.DataProvider(dataProvider));
           });
           // find all data series, providers
-          models.db.DataSeries.findAll({
+          return models.db.DataSeries.findAll({
             include: [
               {
                 model: models.db.DataProvider,
@@ -467,7 +467,7 @@ var DataManager = module.exports = {
             });
 
             self.isLoaded = true;
-            resolve();
+            return resolve();
 
           }).catch(_rejectClean);
         }).catch(_rejectClean);
@@ -2762,7 +2762,7 @@ var DataManager = module.exports = {
       var scheduleResult;
       var historicalData;
       var scriptLanguageResult;
-      models.db.Analysis.create(analysisObject, options)
+      return models.db.Analysis.create(analysisObject, options)
         // successfully creating analysis
         .then(function(analysis) {
           analysisResult = analysis;
@@ -3036,19 +3036,34 @@ var DataManager = module.exports = {
                 id: analysisInstance.outputGrid.id
               }
             }, options));
+          case Enums.AnalysisType.MONITORED:
           case Enums.AnalysisType.DCP:
+            // save/update
             var newMetadata = Utils.generateArrayFromObject(analysisObject.metadata, function(key, value) {
               return {"key": key, "value": value, "analysis_id": analysisInstance.id};
             });
 
-            return models.db.AnalysisMetadata
-              .destroy(Utils.extend(
+            /**
+             * Promise chain (destroy/save)
+             * 
+             * @type {Promise}
+             */
+            var promise;
+            // checking if there is
+            if (Utils.isEmpty(analysisInstance.metadata)) {
+              // add
+              promise = Promise.resolve();
+            } else {
+              // remove
+              promise = models.db.AnalysisMetadata.destroy(Utils.extend(
                 {
                   where: {
                     analysis_id: analysisInstance.id
                   }
-                }, 
-                options))
+                }, options));
+            }
+
+            return promise
               .then(function() {
                 return self.addAnalysisMetadata(newMetadata, options);
               });
