@@ -58,6 +58,15 @@ function _processFilter(filterObject) {
       filterValues.discard_after = new Date(filterObject.date.afterDate);
     }
   }
+  if (filterObject.hasOwnProperty('area')){
+    if (filterObject.area.hasOwnProperty('crop_raster')){
+      filterValues.crop_raster = filterObject.area.crop_raster;
+    }
+  } else if (filterObject.hasOwnProperty('crop_raster')){
+    filterValues.crop_raster = filterObject.crop_raster;
+  } else {
+    filterValues.crop_raster = false;
+  }
 
   return filterValues;
 }
@@ -162,7 +171,7 @@ var DataManager = module.exports = {
         var viewService = Object.assign({}, collectorService);
         viewService.name = "Local View";
         viewService.description = "Local service for View";
-        viewService.port = 6546;
+        viewService.port = 6545;
         viewService.service_type_id = Enums.ServiceType.VIEW;
         viewService.maps_server_uri = "http://admin:geoserver@localhost:8080/geoserver";
 
@@ -343,7 +352,7 @@ var DataManager = module.exports = {
 
   /**
    * It releases cached data from memory
-   * 
+   *
    * @returns {Promise}
    */
   unload: function() {
@@ -362,7 +371,7 @@ var DataManager = module.exports = {
 
   /**
    * It finalizes DataManager instance and Database connection
-   * 
+   *
    * @returns {Promise}
    */
   finalize: function() {
@@ -467,7 +476,7 @@ var DataManager = module.exports = {
             });
 
             self.isLoaded = true;
-            return resolve();
+            resolve();
 
           }).catch(_rejectClean);
         }).catch(_rejectClean);
@@ -570,7 +579,7 @@ var DataManager = module.exports = {
 
   /**
    * It removes project of database from given restriction. **Note** If there is no restriction specified, it will remove all rows of model
-   * 
+   *
    * @param {Object} restriction - A query restriction object
    * @param {Object} options - A query options
    * @param {Transaction} options.transaction - An ORM transaction
@@ -648,7 +657,7 @@ var DataManager = module.exports = {
    * @param {Object} restriction - A javascript object to identify a user
    * @param {Object} userObject - A javascript object with user values
    * @param {Object} options - A query options
-   * @param {Transaction} options.transaction - An ORM transaction 
+   * @param {Transaction} options.transaction - An ORM transaction
    * @return {Promise} a bluebird promise
    */
   updateUser: function(restriction, userObject, options) {
@@ -777,11 +786,11 @@ var DataManager = module.exports = {
 
   /**
    * It retrieves a service instance from given restriction
-   * 
+   *
    * @param {Object} restriction - A query restriction
    * @param {Object?} options - A query options
    * @param {Transaction} options.transaction - An ORM transaction
-   * @return {Promise<ServiceInstance>} 
+   * @return {Promise<ServiceInstance>}
    */
   getServiceInstance : function(restriction, options) {
     var self = this;
@@ -1584,6 +1593,9 @@ var DataManager = module.exports = {
           var promises = [];
 
           dataSeries.dataSets.forEach(function(oldDataSet, dataSetIndex) {
+
+            self.updateDataSetState(oldDataSet.id, dataSeriesObject.dataSets[dataSetIndex].active);
+
             var newDataSet = dataSeriesObject.dataSets[dataSetIndex];
             /**
              * It defines a list of promises to perform DB operation. It may be insert or update
@@ -1623,6 +1635,7 @@ var DataManager = module.exports = {
           dataSeries.name = dataSeriesObject.name;
           dataSeries.description = dataSeriesObject.description;
           dataSeries.data_provider_id = dataProvider.id;
+          dataSeries.active = dataSeriesObject.active;
 
           return resolve(new DataModel.DataSeries(dataSeries));
         }).catch(function(err) {
@@ -1886,6 +1899,37 @@ var DataManager = module.exports = {
 
       } else {
         reject(new exceptions.DataSeriesError("Could not find a data set: ", restriction));
+      }
+    });
+  },
+
+  /**
+   * It updates a DataSet 'active' attribute.
+   *
+   * @param {integer} id - Id of the DataSet.
+   * @param {boolean} active - Flag that indicates the new state of the DataSet.
+   * @return {Promise} - a 'bluebird' module with DataSet instance or error callback
+   */
+  updateDataSetState: function(id, active) {
+    var self = this;
+    return new Promise(function(resolve, reject) {
+
+      var dataSet = Utils.find(self.data.dataSets, { id: id });
+
+      if(dataSet) {
+        models.db.DataSet.findById(id).then(function(result) {
+          result.updateAttributes({active: active}).then(function() {
+            dataSet.active = active;
+
+            resolve(result);
+          }).catch(function(err) {
+            reject(err);
+          });
+        }).catch(function(err) {
+          reject(err);
+        });
+      } else {
+        reject(new exceptions.DataSeriesError("Could not find a data set: ", id));
       }
     });
   },
@@ -2762,7 +2806,7 @@ var DataManager = module.exports = {
       var scheduleResult;
       var historicalData;
       var scriptLanguageResult;
-      return models.db.Analysis.create(analysisObject, options)
+      models.db.Analysis.create(analysisObject, options)
         // successfully creating analysis
         .then(function(analysis) {
           analysisResult = analysis;
