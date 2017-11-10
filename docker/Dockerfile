@@ -1,6 +1,11 @@
 FROM ubuntu:14.04
 
 ############################################################################
+# Information
+LABEL maintainer="TerraMA² Team <terrama2-team@dpi.inpe.br>" \
+      version="4.0.0"
+
+############################################################################
 # Port Binding
 
 # PostgreSQL
@@ -24,6 +29,7 @@ ENV TERRAMA2_INSTALL_PATH=/opt/terrama2/4.0.0
 ENV TERRAMA2_CODEBASE_PATH=${DEV_DIR}/terrama2/codebase
 ENV TERRAMA2_3RDPARTY_PATH=${DEV_DIR}/terrama2/3rdparty
 ENV GEOSERVER_HOME=/opt/geoserver
+ENV PATH="$PATH:${TERRAMA2_INSTALL_PATH}/bin"
 
 RUN echo "deb http://br.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "deb-src http://br.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
@@ -51,7 +57,9 @@ RUN echo "deb http://br.archive.ubuntu.com/ubuntu/ trusty-backports main restric
                        libgnutls-dev \
                        libssl-dev \
                        debhelper \
-                       devscripts
+                       devscripts \
+                       # TerraMA2 Service And Docker
+                       dbus
 
 # Creating USER
 RUN groupadd $TERRAMA2_USER && \
@@ -90,20 +98,21 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && \
 
 # VMime
 RUN cd ${TERRAMA2_CODEBASE_PATH} && \
-    git clone https://github.com/terrama2/terrama2.git ${TERRAMA2_CODEBASE_PATH} && \
-    cd packages/debian-package && \
-    curl -LO https://github.com/kisli/vmime/archive/v0.9.2.tar.gz && \
-    ./deb-vmime.sh && \
-    dpkg -i terrama2-vmime_0.9.2-ubuntu14.04_amd64.deb && \
+    curl -O http://www.dpi.inpe.br/jenkins-data/terrama2/3rdparty/terrama2-vmime_0.9.2-ubuntu-14.04_amd64.deb && \
+    dpkg -i terrama2-vmime_0.9.2-ubuntu-14.04_amd64.deb && \
     apt-get install -f -y && \
-    rm -rf terrama2-vmime_0.9.2-ubuntu14.04_amd64* v* ${TERRAMA2_CODEBASE_PATH}
+    rm -rf terrama2-vmime_0.9.2-ubuntu-14.04_amd64.deb* v* ${TERRAMA2_CODEBASE_PATH}
 
-############################################################################
-# TerraMA2
+# ############################################################################
+# # TerraMA2
 COPY files/install_terrama2.sh /usr/local/bin
 COPY files/docker-entrypoint.sh /
 
 RUN service postgresql start && \
     install_terrama2.sh
+
+# ############################################################################
+# # Volumes
+VOLUME /data  
 
 ENTRYPOINT /docker-entrypoint.sh
