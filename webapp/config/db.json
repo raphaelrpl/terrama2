@@ -1,0 +1,13 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "terrama2_migration",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "define": {
+        "schema": "terrama2"
+    },
+    "logging": false
+  }
+}
