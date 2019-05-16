@@ -7,9 +7,9 @@ module.exports = {
         primaryKey: true
       },
       description: Sequelize.STRING
-    });
+    }, { schema: 'terrama2' });
   },
-  down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('data_series_types');
+  down: function(queryInterface, /*Sequelize*/) {
+    return queryInterface.dropTable({ tableName: 'data_series_types', schema: 'terrama2' });
   }
 };

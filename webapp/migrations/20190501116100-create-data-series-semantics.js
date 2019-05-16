@@ -15,22 +15,28 @@ module.exports = {
       data_format_name: {
         type: Sequelize.STRING,
         references: {
-          model: 'data_formats',
-          key: 'name'
-        }
+          key: 'name',
+          model: {
+            tableName: 'data_formats',
+            schema: 'terrama2'
+          }
+        },
+        onDelete: 'CASCADE'
       },
       data_series_type_name: {
         type: Sequelize.STRING,
         references: {
-          model: 'data_series_types',
-          key: 'name'
+          key: 'name',
+          model: {
+            tableName: 'data_series_types',
+            schema: 'terrama2'
+          }
         },
-        onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
-    });
+    }, { schema: 'terrama2' });
   },
-  down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('data_series_semantics');
+  down: function(queryInterface, /*Sequelize*/) {
+    return queryInterface.dropTable({ tableName: 'data_series_semantics', schema: 'terrama2' });
   }
 };

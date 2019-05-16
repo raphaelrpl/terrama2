@@ -3,7 +3,7 @@
 const Application = require('../core/Application');
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up: function (queryInterface, /*Sequelize*/) {
     // Prepare context to insert multiple semantics
     const bulkData = [
       { name: 'TXT', description: 'test'},
@@ -12,7 +12,7 @@ module.exports = {
     return queryInterface.bulkInsert('data_formats', bulkData);
   },
 
-  down: function (queryInterface, Sequelize) {
+  down: function (queryInterface, /*Sequelize*/) {
     /*
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
