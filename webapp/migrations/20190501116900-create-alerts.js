@@ -1,42 +1,31 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('views', {
+    return queryInterface.createTable('alerts', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
-        comment: "View identifier"
+        autoIncrement: true
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        comment: "View name"
-      },
-      description: {
-        type: Sequelize.TEXT,
-        comment: "View description"
-      },
-      active: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        default: true,
-        comment: "It defines view can be used and retrieved. Default is true."
-      },
-      private: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        default: false,
-        comment: "It defines if the view is private. Default is false."
-      },
+      active: Sequelize.BOOLEAN,
+      name: Sequelize.STRING,
+      description: Sequelize.TEXT,
+      legend_attribute: Sequelize.STRING,
       schedule_type: {
         type: Sequelize.INTEGER,
         allowNull: true
       },
-      source_type: {
+      project_id: {
         type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'projects',
+            schema: "terrama2"
+          },
+        },
         allowNull: false,
-        comment: "It defines the type of data source that create the view. Alert, Analysis, Static Data or Dynamic Data"
+        onDelete: 'CASCADE'
       },
       data_series_id: {
         type: Sequelize.INTEGER,
@@ -44,6 +33,18 @@ module.exports = {
           key: 'id',
           model: {
             tableName: 'data_series',
+            schema: "terrama2"
+          },
+        },
+        allowNull: false,
+        onDelete: 'CASCADE'
+      },
+      service_instance_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'service_instances',
             schema: "terrama2"
           },
         },
@@ -62,36 +63,24 @@ module.exports = {
         allowNull: true,
         onDelete: 'CASCADE'
       },
-      automatic_schedule_id: {
+      legend_id: {
         type: Sequelize.INTEGER,
         references: {
           key: 'id',
           model: {
-            tableName: 'automatic_schedules',
+            tableName: 'legends',
             schema: "terrama2"
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'NO ACTION'
       },
-      project_id: {
+      view_id: {
         type: Sequelize.INTEGER,
         references: {
           key: 'id',
           model: {
-            tableName: 'projects',
-            schema: "terrama2"
-          },
-        },
-        allowNull: false,
-        onDelete: 'CASCADE'
-      },
-      service_instance_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          key: 'id',
-          model: {
-            tableName: 'service_instances',
+            tableName: 'views',
             schema: "terrama2"
           },
         },
@@ -101,6 +90,6 @@ module.exports = {
     }, { schema: 'terrama2' });
   },
   down: function(queryInterface, /*Sequelize*/) {
-    return queryInterface.dropTable({ tableName: 'views', schema: 'terrama2' });
+    return queryInterface.dropTable({ tableName: 'alerts', schema: 'terrama2' });
   }
 };

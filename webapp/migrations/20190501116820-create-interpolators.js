@@ -1,79 +1,19 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('views', {
+    return queryInterface.createTable('interpolators', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
-        comment: "View identifier"
+        autoIncrement: true
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        comment: "View name"
-      },
-      description: {
-        type: Sequelize.TEXT,
-        comment: "View description"
-      },
-      active: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        default: true,
-        comment: "It defines view can be used and retrieved. Default is true."
-      },
-      private: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        default: false,
-        comment: "It defines if the view is private. Default is false."
-      },
-      schedule_type: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
-      source_type: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        comment: "It defines the type of data source that create the view. Alert, Analysis, Static Data or Dynamic Data"
-      },
-      data_series_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          key: 'id',
-          model: {
-            tableName: 'data_series',
-            schema: "terrama2"
-          },
-        },
-        allowNull: false,
-        onDelete: 'CASCADE'
-      },
-      schedule_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          key: 'id',
-          model: {
-            tableName: 'schedules',
-            schema: "terrama2"
-          },
-        },
-        allowNull: true,
-        onDelete: 'CASCADE'
-      },
-      automatic_schedule_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          key: 'id',
-          model: {
-            tableName: 'automatic_schedules',
-            schema: "terrama2"
-          },
-        },
-        allowNull: false,
-        onDelete: 'CASCADE'
-      },
+      active: Sequelize.BOOLEAN,
+      schedule_type: Sequelize.INTEGER,
+      bounding_rect: Sequelize.TEXT,
+      interpolation_attribute: Sequelize.STRING,
+      resolution_x: Sequelize.DECIMAL,
+      resolution_y: Sequelize.DECIMAL,
+      srid: Sequelize.INTEGER,
       project_id: {
         type: Sequelize.INTEGER,
         references: {
@@ -97,10 +37,70 @@ module.exports = {
         },
         allowNull: false,
         onDelete: 'CASCADE'
+      },
+      data_series_input: {
+        type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'data_series',
+            schema: "terrama2"
+          },
+        },
+        allowNull: false,
+        onDelete: 'CASCADE'
+      },
+      data_series_output: {
+        type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'data_series',
+            schema: "terrama2"
+          },
+        },
+        allowNull: false,
+        onDelete: 'CASCADE'
+      },
+      schedule_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'schedules',
+            schema: "terrama2"
+          },
+        },
+        allowNull: false,
+        onDelete: 'CASCADE'
+      },
+      automatic_schedule_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'automatic_schedules',
+            schema: "terrama2"
+          },
+        },
+        allowNull: false,
+        onDelete: 'CASCADE'
+      },
+      interpolator_strategy: {
+        type: Sequelize.STRING,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'interpolator_strategy',
+            schema: "terrama2"
+          },
+        },
+        allowNull: false,
+        onDelete: 'CASCADE'
       }
     }, { schema: 'terrama2' });
   },
   down: function(queryInterface, /*Sequelize*/) {
-    return queryInterface.dropTable({ tableName: 'views', schema: 'terrama2' });
+    return queryInterface.dropTable({ tableName: 'interpolators', schema: 'terrama2' });
   }
 };
