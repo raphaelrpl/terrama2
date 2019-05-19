@@ -21,7 +21,12 @@ var _data = {
    * It defines TerraMA² semantics loaded
    * @type {any[]}
    */
-  "semantics": []
+  "semantics": [],
+  /**
+   * Defines TerraMA2 version
+   * @type {any}
+   */
+  "version": null
 };
 
 /**
@@ -47,6 +52,10 @@ function Application() {
  * @throws TypeError When read content is not a valid json
  */
 Application.prototype.load = function() {
+  // reading Version
+  const version = require(path.resolve(__dirname, '../../share/terrama2/version.json'));
+  _data.version = version;
+
   // reading TerraMA² webapp metadata
   var buffer = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json"), "utf-8"));
 
@@ -119,6 +128,19 @@ Application.prototype.getContextConfig = function() {
  */
 Application.prototype.getAllConfigs = function() {
   return _data.settings;
+}
+
+/**
+ * Retrieves TerraMA2 version string
+ * @returns {string|any}
+ */
+Application.prototype.getVersion = function(serialize = true) {
+  if (serialize) {
+    const { version } = _data;
+    return `${version.major}.${version.minor}.${version.patch}-${version.tag}`;
+  }
+
+  return _data.version;
 }
 
 /**

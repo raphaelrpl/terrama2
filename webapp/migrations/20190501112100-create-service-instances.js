@@ -22,6 +22,18 @@ module.exports = {
       pathToBinary: Sequelize.STRING,
       numberOfThreads: Sequelize.INTEGER,
       runEnviroment: Sequelize.STRING,
+      service_type_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'service_types',
+            schema: "terrama2"
+          },
+        },
+        allowNull: false,
+        onDelete: 'CASCADE'
+      }
     }, { schema: 'terrama2' });
   },
   down: function(queryInterface, /*Sequelize*/) {
