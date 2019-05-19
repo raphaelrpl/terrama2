@@ -45,7 +45,7 @@ module.exports = {
         references: {
           key: 'id',
           model: {
-            tableName: 'interpolation_methods',
+            tableName: 'interpolation_method',
             schema: "terrama2"
           },
         },
@@ -57,7 +57,7 @@ module.exports = {
         references: {
           key: 'id',
           model: {
-            tableName: 'area_of_interest_types',
+            tableName: 'analysis_area_of_interest_types',
             schema: "terrama2"
           },
         },

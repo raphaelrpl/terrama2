@@ -15,7 +15,7 @@ module.exports = {
       })
     )
 
-    return queryInterface.bulkInsert('data_series_semantics', bulkSemantics);
+    return queryInterface.bulkInsert({ schema: 'terrama2', tableName: 'data_series_semantics'}, bulkSemantics);
   },
 
   down: function (queryInterface, /*Sequelize*/) {
@@ -26,6 +26,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('Person', null, {});
     */
-    return queryInterface.bulkDelete('data_series_semantics', null, {});
+    return queryInterface.bulkDelete({ schema: 'terrama2', tableName: 'data_series_semantics'}, null, {});
   }
 };

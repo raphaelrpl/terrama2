@@ -9,7 +9,9 @@
     "test": "mocha -c --reporter=spec --timeout 99999 --recursive 'tests/**/*.spec.js'",
     "db:migrate": "sequelize db:migrate",
     "db:migrate:create": "sequelize db:migrate:create",
-    "db:migrate:undo": "sequelize db:migrate:undo:all"
+    "db:migrate:undo": "sequelize db:migrate:undo:all",
+    "db:seed:all": "sequelize db:seed:all",
+    "db:seed:create": "sequelize seed:create"
   },
   "bin": {
     "webapp-stop": "./bin/webapp-stop"

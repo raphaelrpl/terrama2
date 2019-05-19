@@ -15,7 +15,7 @@ module.exports = {
       { name: 'GRADS', description: 'test'},
     ]
 
-    return queryInterface.bulkInsert('data_formats', bulkData);
+    return queryInterface.bulkInsert({ schema: 'terrama2', tableName: 'data_formats'}, bulkData);
   },
 
   down: function (queryInterface, /*Sequelize*/) {
@@ -26,6 +26,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('Person', null, {});
     */
-    return queryInterface.bulkDelete('data_formats', null, {});
+    return queryInterface.bulkDelete({ schema: 'terrama2', tableName: 'data_formats'}, null, {});
   }
 };
