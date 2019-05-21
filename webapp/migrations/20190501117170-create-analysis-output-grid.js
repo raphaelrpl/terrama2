@@ -1,6 +1,12 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('analysis_output_grids', {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+      },
       interpolation_dummy: {
         type: Sequelize.NUMERIC
       },

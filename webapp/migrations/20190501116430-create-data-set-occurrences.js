@@ -1,6 +1,6 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('data_set_ocurrences', {
+    return queryInterface.createTable('data_set_occurrences', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -22,6 +22,6 @@ module.exports = {
     }, { schema: 'terrama2' });
   },
   down: function(queryInterface, /*Sequelize*/) {
-    return queryInterface.dropTable({ tableName: 'data_set_ocurrences', schema: 'terrama2' });
+    return queryInterface.dropTable({ tableName: 'data_set_occurrences', schema: 'terrama2' });
   }
 };
