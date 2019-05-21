@@ -1,6 +1,12 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('semantics_providers_types', {
+    return queryInterface.createTable('semantics_providers_type', {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+      },
       data_provider_type_id: {
         type: Sequelize.INTEGER,
         references: {
@@ -27,6 +33,6 @@ module.exports = {
     }, { schema: 'terrama2' });
   },
   down: function(queryInterface, /*Sequelize*/) {
-    return queryInterface.dropTable({ tableName: 'semantics_providers_types', schema: 'terrama2' });
+    return queryInterface.dropTable({ tableName: 'semantics_providers_type', schema: 'terrama2' });
   }
 };
