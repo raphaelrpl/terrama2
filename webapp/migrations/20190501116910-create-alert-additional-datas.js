@@ -1,6 +1,6 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('alert_additional_datas', {
+    return queryInterface.createTable('alert_additional_data', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -49,6 +49,6 @@ module.exports = {
     }, { schema: 'terrama2' });
   },
   down: function(queryInterface, /*Sequelize*/) {
-    return queryInterface.dropTable({ tableName: 'alert_additional_datas', schema: 'terrama2' });
+    return queryInterface.dropTable({ tableName: 'alert_additional_data', schema: 'terrama2' });
   }
 };
