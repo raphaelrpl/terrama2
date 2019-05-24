@@ -132,7 +132,7 @@ module.exports = function(app) {
         return Promise.all(projectsDeletionPromises).then(function() {
           // un-setting cache project
           request.session.activeProject = {};
-          request.session.cachedProjects = DataManager.listProjects();
+          request.session.cachedProjects = DataManager.listProjects().map(p => p.toObject());
 
           return DataManager.getUser({id: userId}).then(function(userResult) {
             var name = userResult.name;

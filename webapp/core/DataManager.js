@@ -175,19 +175,18 @@ var DataManager = module.exports = {
       return models.Project.findAll({}).then(function(projects) {
         return models.User.findAll({}).then(function(users) {
           projects.forEach(function(project) {
-            var projectObj = project.get();
             var userObj = null;
 
             users.forEach(function(user) {
-              if(user.dataValues.id === projectObj.user_id) {
+              if(user.dataValues.id === project.user_id) {
                 userObj = user.get();
                 return;
               }
             });
 
-            projectObj.user_name = userObj.name;
+            project.user_name = userObj.name;
 
-            self.data.projects.push(projectObj);
+            self.data.projects.push(project);
           });
 
           return models.DataProvider.findAll({ include: [ models.DataProviderType, models.DataProviderOptions ] }).then(function(dataProviders) {
@@ -296,20 +295,19 @@ var DataManager = module.exports = {
     return new Promise(function(resolve, reject){
       models.Project.create(projectObject, Utils.extend({}, options)).then(function(project){
         models.User.findAll({}).then(function(users) {
-          var projectObj = project.get();
           var userObj = null;
 
           users.forEach(function(user) {
-            if(user.dataValues.id === projectObj.user_id) {
+            if(user.dataValues.id === project.user_id) {
               userObj = user.get();
               return;
             }
           });
 
-          projectObj.user_name = userObj.name;
+          project.user_name = userObj.name;
 
-          self.data.projects.push(projectObj);
-          return resolve(Utils.clone(projectObj));
+          self.data.projects.push(project);
+          return resolve(project);
         });
       }).catch(function(e) {
         var message = "Could not save project: ";
@@ -445,7 +443,7 @@ var DataManager = module.exports = {
   listProjects: function() {
     var projectList = [];
     this.data.projects.forEach(function(project) {
-      projectList.push(Utils.clone(project));
+      projectList.push(project);
     });
     return projectList;
   },

@@ -9,10 +9,10 @@ module.exports = function(app) {
   return {
     post: function(request, response) {
       ProjectFacade.save(request.body, request.user.id).then(function(projectResult) {
-        request.session.cachedProjects = DataManager.listProjects();
+        request.session.cachedProjects = DataManager.listProjects().map(p => p.toObject());
 
         var token = Utils.generateToken(app, TokenCode.SAVE, projectResult.name);
-        return response.json({status: 200, result: projectResult, token: token});
+        return response.json({status: 200, result: projectResult.toObject(), token: token});
       }).catch(function(err) {
         return Utils.handleRequestError(response, err, 400);
       });
@@ -20,7 +20,7 @@ module.exports = function(app) {
 
     get: function(request, response) {
       ProjectFacade.retrieve(request.params.id, request.user).then(function(projects) {
-        return response.json(projects)
+        return response.json(projects.map(p => p.toObject(request.user)))
       }).catch(function(err) {
         return Utils.handleRequestError(response, err, 400);
       });
@@ -28,7 +28,7 @@ module.exports = function(app) {
 
     put: function(request, response) {
       ProjectFacade.update(request.params.id, request.body, request.user.id).then(function(projectResult) {
-        request.session.cachedProjects = DataManager.listProjects();
+        request.session.cachedProjects = DataManager.listProjects().map(p => p.toObject());
 
         var token = Utils.generateToken(app, TokenCode.UPDATE, projectResult.name);
         return response.json({status: 200, result: projectResult, token: token});
@@ -41,7 +41,7 @@ module.exports = function(app) {
       ProjectFacade.remove(request.params.id).then(function(project) {
         // un-setting cache project
         request.session.activeProject = {};
-        request.session.cachedProjects = DataManager.listProjects();
+        request.session.cachedProjects = DataManager.listProjects().map(p => p.toObject());
 
         var token = Utils.generateToken(app, TokenCode.DELETE, project.name);
         return response.json({status: 200, name: project.name, token: token});

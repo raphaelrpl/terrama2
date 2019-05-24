@@ -225,15 +225,13 @@ var Utils = module.exports = {
 
   prepareAddSignalMessage: function(DataManager, projectId) {
     return new Promise(function(resolve, reject) {
-      const Project = require('./data-model/Project');
-
       var _handleError = function(err) {
         console.log(err);
         reject(err);
       };
 
       var dataProvidersResult = DataManager.listDataProviders();
-      const projects = DataManager.listProjects().map(project => new Project(project).toObject());
+      const projects = DataManager.listProjects().map(project => project.toObject());
       var providers = [];
       dataProvidersResult.forEach(function(dataProvider) {
         providers.push(dataProvider.toService());

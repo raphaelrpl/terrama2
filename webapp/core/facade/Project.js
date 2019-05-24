@@ -6,7 +6,6 @@
   var PromiseClass = require("./../Promise");
   var Application = require("./../Application");
   var ProjectError = require("./../Exceptions").ProjectError;
-  const ProjectModel = require("./../data-model/Project");
 
   /**
    * It represents a mock to handle project.
@@ -91,7 +90,7 @@
           promises.push(DataManager.addDataProvider(DefaultPostgisProvider));
 
           return Promise.all(promises)
-            .then(providers => sendProviders(providers, [new ProjectModel(project).toObject()]))
+            .then(providers => sendProviders(providers, [project.toObject()]))
             .then(() => resolve(project));
         })
         .catch(err =>reject(err));
@@ -115,10 +114,6 @@
         });
       } else {
         var projects = DataManager.listProjects();
-
-        projects.forEach(function(project) {
-          project.hasPermission = !project.protected || user.administrator || user.id == project.user_id;
-        });
 
         return resolve(projects);
       }
@@ -144,7 +139,7 @@
           projectReceived(project);
 
           // Sending through TCP
-          TcpService.send({"Projects": [new ProjectModel(project).toObject()]});
+          TcpService.send({"Projects": [project.toObject()]});
           return resolve(project);
         }).catch(function(err) {
           return reject(err);
@@ -173,7 +168,7 @@
             "DataSeries": [],
             "Legends": [],
             "Views": [],
-            "Projects": [new ProjectModel(project).toObject()]
+            "Projects": [project.toObject()]
           };
 
           var dataProviders = DataManager.listDataProviders({ project_id: projectId });

@@ -5,7 +5,6 @@ var makeTokenParameters = require('../../core/Utils').makeTokenParameters;
 
 module.exports = function(app) {
   const TcpService = require('./../../core/facade/tcp-manager/TcpService');
-  const Project = require('./../../core/data-model/Project');
 
   return {
     get: function (request, response) {
@@ -45,7 +44,7 @@ module.exports = function(app) {
         request.session.activeProject = {id: project.id, name: project.name, protected: project.protected, userId: project.user_id, hasProjectPermission: hasProjectPermission};
 
         // Sending Active Project
-        TcpService.send({ "Projects": [ new Project({ ...project, active: true }).toObject() ] });
+        TcpService.send({ "Projects": [ { ...project.toObject(), active: true } ] });
 
         // Redirect for start application
         if(request.params.token !== undefined)
@@ -69,7 +68,7 @@ module.exports = function(app) {
         request.session.activeProject = {id: project.id, name: project.name, protected: project.protected, userId: project.user_id, hasProjectPermission: hasProjectPermission};
 
         // Sending Active Project
-        TcpService.send({ "Projects": [ new Project({ ...project, active: true }).toObject() ] });
+        TcpService.send({ "Projects": [ {...project.toObject(), active: true } ] });
 
         // Redirect for start application
         if(request.params.token !== undefined)
@@ -83,7 +82,7 @@ module.exports = function(app) {
 
     updateCache: function(request, response){
 
-      request.session.cachedProjects = DataManager.listProjects();
+      request.session.cachedProjects = DataManager.listProjects().map(p => p.toObject());
       response.redirect(app.locals.BASE_URL + "configuration/projects");
     }
   };

@@ -48,7 +48,7 @@ module.exports = function(app) {
           "views": outputViews,
           "alerts": outputAlerts,
           "interpolators": outputInterpolators,
-          "projects": projects,
+          "projects": projects.map(p => p.toObject()),
           "parameters": null
         };
 
