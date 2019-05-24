@@ -62,7 +62,7 @@ var ViewsRetriever = function(app) {
               };
 
               if(params.initialRequest)
-                returnData.projects = memberDataManager.listProjects();
+                returnData.projects = memberDataManager.listProjects().map(p => p.toObject());
 
               response.json(returnData);
             }).catch(function(err) {
