@@ -25,7 +25,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       data_series_id: {
         type: Sequelize.INTEGER,
@@ -37,7 +38,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       service_instance_id: {
         type: Sequelize.INTEGER,
@@ -49,7 +51,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       schedule_id: {
         type: Sequelize.INTEGER,
@@ -61,7 +64,21 @@ module.exports = {
           },
         },
         allowNull: true,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      },
+      automatic_schedule_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'automatic_schedules',
+            schema: "terrama2"
+          },
+        },
+        allowNull: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       legend_id: {
         type: Sequelize.INTEGER,
@@ -73,7 +90,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'NO ACTION'
+        onDelete: 'NO ACTION',
+        onUpdate: 'CASCADE'
       },
       view_id: {
         type: Sequelize.INTEGER,
@@ -85,7 +103,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       }
     }, { schema: 'terrama2' });
   },

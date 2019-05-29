@@ -21,7 +21,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       view_id: {
         type: Sequelize.INTEGER,
@@ -33,7 +34,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       }
     }, { schema: 'terrama2' });
   },

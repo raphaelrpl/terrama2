@@ -21,7 +21,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       data_series_output: {
         type: Sequelize.INTEGER,
@@ -33,7 +34,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       service_instance_id: {
         type: Sequelize.INTEGER,
@@ -45,7 +47,8 @@ module.exports = {
           },
         },
         allowNull: true,
-        onDelete: 'CASCADE'
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
       },
       schedule_id: {
         type: Sequelize.INTEGER,
@@ -57,7 +60,8 @@ module.exports = {
           },
         },
         allowNull: true,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       }
     }, { schema: 'terrama2' });
   },

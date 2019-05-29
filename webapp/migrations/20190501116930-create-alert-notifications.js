@@ -2,39 +2,16 @@ module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('alert_notifications', {
       id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
       },
-      y_max: {
-        type: Sequelize.DOUBLE,
-        allowNull: false
-      },
-      y_min: {
-        type: Sequelize.DOUBLE,
-        allowNull: false
-      },
-      x_max: {
-        type: Sequelize.DOUBLE,
-        allowNull: false
-      },
-      x_min: {
-        type: Sequelize.DOUBLE,
-        allowNull: false
-      },
-      srid: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      width: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
-      height: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-      },
+      include_report: DataTypes.STRING,
+      notify_on_change: DataTypes.BOOLEAN,
+      simplified_report: DataTypes.BOOLEAN,
+      notify_on_legend_level: DataTypes.INTEGER,
+      recipients: DataTypes.TEXT,
       alert_id: {
         type: Sequelize.INTEGER,
         references: {
@@ -45,7 +22,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       }
     }, { schema: 'terrama2' });
   },

@@ -32,31 +32,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
-      },
-      resolution_type: {
-        type: Sequelize.INTEGER,
-        references: {
-          key: 'id',
-          model: {
-            tableName: 'analysis_resolution_types',
-            schema: "terrama2"
-          },
-        },
-        allowNull: false,
-        onDelete: 'CASCADE'
-      },
-      interpolation_method: {
-        type: Sequelize.INTEGER,
-        references: {
-          key: 'id',
-          model: {
-            tableName: 'interpolation_method',
-            schema: "terrama2"
-          },
-        },
-        allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       area_of_interest_type: {
         type: Sequelize.INTEGER,
@@ -68,7 +45,34 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      },
+      resolution_type: {
+        type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'analysis_resolution_types',
+            schema: "terrama2"
+          },
+        },
+        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      },
+      interpolation_method: {
+        type: Sequelize.INTEGER,
+        references: {
+          key: 'id',
+          model: {
+            tableName: 'interpolation_method',
+            schema: "terrama2"
+          },
+        },
+        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       resolution_data_series_id: {
         type: Sequelize.INTEGER,
@@ -80,7 +84,8 @@ module.exports = {
           },
         },
         allowNull: true,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       area_of_interest_data_series_id: {
         type: Sequelize.INTEGER,
@@ -92,7 +97,8 @@ module.exports = {
           },
         },
         allowNull: true,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       }
     }, { schema: 'terrama2' });
   },

@@ -17,7 +17,8 @@ module.exports = {
           },
         },
         allowNull: false,
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       input_dataset: {
         type: Sequelize.INTEGER,
@@ -28,8 +29,9 @@ module.exports = {
             schema: "terrama2"
           },
         },
-        allowNull: true,
-        onDelete: 'CASCADE'
+        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       output_dataset: {
         type: Sequelize.INTEGER,
@@ -40,8 +42,9 @@ module.exports = {
             schema: "terrama2"
           },
         },
-        allowNull: true,
-        onDelete: 'CASCADE'
+        allowNull: false,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       }
     }, { schema: 'terrama2' });
   },
