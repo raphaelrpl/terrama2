@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "grunt": "grunt"
+    "grunt": "grunt",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
@@ -21,7 +23,6 @@
     "socket.io": "^1.4.8",
     "swig": "1.4.2",
     "xml2js": "^0.4.17",
-
     "openlayers": "=4.2.0",
     "datatables": "=1.10.13",
     "jquery": "=2.1.4",
@@ -34,7 +35,8 @@
     "almond": "=0.3.3",
     "font-awesome": "=4.6.3",
     "ionicons": "=2.0.1",
-    "malihu-custom-scrollbar-plugin": "=3.1.5"
+    "malihu-custom-scrollbar-plugin": "=3.1.5",
+    "snyk": "^1.190.0"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
@@ -45,5 +47,6 @@
     "grunt-jsdoc": "^2.1.0",
     "jsdoc": "^3.4.0",
     "requirejs": "^2.2.0"
-  }
+  },
+  "snyk": true
 }
