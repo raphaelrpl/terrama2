@@ -22,7 +22,7 @@
     "swig": "1.4.2",
     "xml2js": "^0.4.17",
 
-    "openlayers": "=4.2.0",
+    "openlayers": "4.3.0",
     "datatables": "=1.10.13",
     "jquery": "=2.1.4",
     "bootstrap": "=3.3.7",
