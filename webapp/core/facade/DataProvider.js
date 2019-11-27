@@ -261,6 +261,7 @@
         .then(function(dataProvider) {
           var providerObject = dataProvider.toObject();
           var uriInfo = getPostgisUriInfo(providerObject.uri);
+          uriInfo.password = decodeURIComponent(uriInfo.password);
           uriInfo.objectToGet = objectToGet;
           uriInfo.tableName = tableName;
           uriInfo.columnName = columnName;
