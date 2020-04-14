@@ -57,7 +57,7 @@
     "unzip2": "^0.2.5",
     "winston": "^2.3.0",
 
-    "jquery": "=2.2.4",
+    "jquery": "3.5.0",
     "angular": "=1.6.5",
     "angular-schema-form": "=0.8.13",
     "jquery-ui": "=1.12.1",
@@ -72,7 +72,7 @@
     "angular-wizard": "=0.9.0",
     "angular-ui-router": "=0.4.2",
     "i18n-node-angular": "=1.4.0",
-    "angular-xeditable": "=0.4.0",
+    "angular-xeditable": "0.6.0",
     "fastclick": "=1.0.6",
     "ace-builds": "=1.2.8",
     "admin-lte": "=2.3.0",
