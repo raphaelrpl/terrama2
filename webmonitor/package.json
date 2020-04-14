@@ -24,7 +24,7 @@
 
     "openlayers": "=4.2.0",
     "datatables": "=1.10.13",
-    "jquery": "=2.1.4",
+    "jquery": "3.5.0",
     "bootstrap": "=3.3.7",
     "admin-lte": "=2.3.0",
     "underscore": "=1.8.3",
