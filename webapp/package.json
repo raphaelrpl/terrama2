@@ -5,7 +5,9 @@
   "scripts": {
     "start": "grunt && node ./bin/www",
     "test": "mocha --timeout 5000 tests",
-    "grunt": "grunt"
+    "grunt": "grunt",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "bin": {
     "webapp-stop": "./bin/webapp-stop"
@@ -56,8 +58,7 @@
     "swig": "1.4.2",
     "unzip2": "^0.2.5",
     "winston": "^2.3.0",
-
-    "jquery": "=2.2.4",
+    "jquery": "3.5.0",
     "angular": "=1.6.5",
     "angular-schema-form": "=0.8.13",
     "jquery-ui": "=1.12.1",
@@ -72,7 +73,7 @@
     "angular-wizard": "=0.9.0",
     "angular-ui-router": "=0.4.2",
     "i18n-node-angular": "=1.4.0",
-    "angular-xeditable": "=0.4.0",
+    "angular-xeditable": "0.6.0",
     "fastclick": "=1.0.6",
     "ace-builds": "=1.2.8",
     "admin-lte": "=2.3.0",
@@ -84,6 +85,8 @@
     "angular-aria": "=1.6.6",
     "angular-material": "=1.1.4",
     "ng-file-upload": "=12.2.13",
-    "angular-sortable-view": "=0.0.15"
-  }
+    "angular-sortable-view": "=0.0.15",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
