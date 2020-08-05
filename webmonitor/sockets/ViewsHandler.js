@@ -9,6 +9,8 @@ var ViewsHandlers = function(io) {
   var Application = require('./../core/Application');
   var memberConfig = Application.getContextConfig();
 
+  const common = require('./../utils/common');
+
   // Socket connection event
   memberSockets.on('connection', function(client) {
 
@@ -26,7 +28,7 @@ var ViewsHandlers = function(io) {
       };
 
       var options = {
-        url: memberConfig.webadmin.protocol + memberConfig.webadmin.host + ":" + memberConfig.webadmin.port + memberConfig.webadmin.basePath + action,
+        url: common.urlResolve(memberConfig.webadmin.internal_uri, action),
         form: {
           clientId: json.clientId,
           userToken: json.token,
