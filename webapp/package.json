@@ -75,7 +75,7 @@
     "angular-xeditable": "=0.4.0",
     "fastclick": "=1.0.6",
     "ace-builds": "=1.2.8",
-    "admin-lte": "=2.3.0",
+    "admin-lte": "3.1.0",
     "angularjs-color-picker": "=2.7.2",
     "angular-eonasdan-datetimepicker": "=0.3.9",
     "almond": "=0.3.3",
