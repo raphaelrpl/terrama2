@@ -38,7 +38,7 @@
     "method-override": "^2.3.5",
     "mocha": "^2.4.5",
     "morgan": "~1.6.1",
-    "nodemailer": "=2.7.2",
+    "nodemailer": "6.9.9",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pg": "^4.5.1",
@@ -58,7 +58,7 @@
     "winston": "^2.3.0",
 
     "jquery": "=2.2.4",
-    "angular": "=1.6.5",
+    "angular": "1.8.3",
     "angular-schema-form": "=0.8.13",
     "jquery-ui": "=1.12.1",
     "angular-tree-control": "=0.2.28",
